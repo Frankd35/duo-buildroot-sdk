@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0
 # Generic MAILBOX API
 
-obj-$(CONFIG_MAILBOX)		+= mailbox.o
+obj-y		+= mailbox.o
 
-obj-$(CONFIG_MAILBOX_TEST)	+= mailbox-test.o
+obj-y	+= mailbox-test.o
 
 obj-$(CONFIG_ARM_MHU)	+= arm_mhu.o arm_mhu_db.o
 
@@ -54,3 +54,5 @@ obj-$(CONFIG_SUN6I_MSGBOX)	+= sun6i-msgbox.o
 obj-$(CONFIG_SPRD_MBOX)		+= sprd-mailbox.o
 
 obj-$(CONFIG_QCOM_IPCC)		+= qcom-ipcc.o
+
+obj-y	+= cv1800b-mailbox.o
