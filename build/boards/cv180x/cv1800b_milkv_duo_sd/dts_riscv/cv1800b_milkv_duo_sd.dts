@@ -26,6 +26,20 @@
 };
 
 / {
+		mailbox: mailbox@0x1900000 {
+		#mbox-cells = <1>;
+		compatible = "cvitek,cv180x-mailbox";
+		reg = <0x0 0x01900000 0x0 0x1000>;
+		// reg-names = "mailbox";
+		interrupts = <101 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "mailbox";
+		interrupt-parent = <&plic0>;
+	};
 
+	mailbox-test {
+		compatible = "mailbox-test";
+		mbox-names = "rx", "tx";
+		mboxes = <&mailbox 0 &mailbox 1>;
+	};
 };
 
