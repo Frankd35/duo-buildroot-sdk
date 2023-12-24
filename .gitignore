@@ -18,3 +18,4 @@ cscope.*
 ncscope.*
 .svim
 
+linux_5.10/.cache/**

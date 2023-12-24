@@ -1,0 +1,15 @@
+{
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "clangd.path": "/usr/local/bin/clangd",
+    "clangd.arguments": [
+    "--log=verbose",
+    ],
+    "version": 4,
+    "files.associations": {
+        "*.c": "c",
+        "device.h": "c",
+        "err.h": "c",
+        "interrupt.h": "c",
+        "io.h": "c"
+    }
+}

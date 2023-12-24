@@ -138,6 +138,8 @@ static ssize_t mbox_test_message_write(struct file *filp,
 	ret = mbox_send_message(tdev->tx_channel, data);
 	if (ret < 0)
 		dev_err(tdev->dev, "Failed to send message via mailbox\n");
+	else
+		dev_info(tdev->dev, "mbox_test_message_write %s", (char*)tdev->message);
 
 out:
 	kfree(tdev->signal);
@@ -286,6 +288,7 @@ static void mbox_test_receive_message(struct mbox_client *client, void *message)
 	} else if (message) {
 		print_hex_dump_bytes("Client: Received [API]: ", DUMP_PREFIX_ADDRESS,
 				     message, MBOX_MAX_MSG_LEN);
+		dev_info(client->dev, "Client: Received [API]: %s\n", (char*)message);
 		memcpy(tdev->rx_buffer, message, MBOX_MAX_MSG_LEN);
 	}
 	mbox_data_ready = true;

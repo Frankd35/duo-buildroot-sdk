@@ -62,8 +62,7 @@ static irqreturn_t cv1800b_mbox_isr(int irq, void *dev_id)
 			
 			// [FIXME]enable tx done interrupt 
 			// writeb((short)(1<<i) | done, mb->mbox_base + MBOX_DONE_REG(RECEIVE_CPU)); 
-			
-			printk("cv1800b_mbox_isr: MBOX_DONE_REG:%d\n", readb(mb->mbox_base + MBOX_DONE_REG(RECEIVE_CPU)));
+			// printk("cv1800b_mbox_isr: MBOX_DONE_REG:%d\n", readb(mb->mbox_base + MBOX_DONE_REG(RECEIVE_CPU)));
 
 			return IRQ_HANDLED;
 		}
@@ -136,7 +135,7 @@ static int cv1800b_mbox_send_data(struct mbox_chan *chan, void *data) {
 	writeb((short)(1 << idx), mbox->mbox_base + MBOX_SET_REG); // mbox_reg->mbox_set.mbox_set = (1 << idx);
 
 	if (chan->cl->tx_block) {
-		printk("complete(&chan->tx_complete);\n");
+		printk("cv1800b_mbox_send_data channel %d complete\n", chan->con_priv);
 		complete(&chan->tx_complete);
 	}
 

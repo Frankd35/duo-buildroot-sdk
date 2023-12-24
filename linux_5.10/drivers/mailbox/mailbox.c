@@ -52,12 +52,14 @@ static int add_to_rbuf(struct mbox_chan *chan, void *mssg)
 
 static void msg_submit(struct mbox_chan *chan)
 {
+	printk("in msg_submit, channel:%d\n", chan->con_priv);
 	unsigned count, idx;
 	unsigned long flags;
 	void *data;
 	int err = -EBUSY;
 
 	spin_lock_irqsave(&chan->lock, flags);
+	printk("in msg_submit, channel:%d get spin lock, chan->msg_count: %d, chan->active_req: %d\n", chan->con_priv, chan->msg_count, chan->active_req);
 
 	if (!chan->msg_count || chan->active_req)
 		goto exit;
@@ -81,6 +83,7 @@ static void msg_submit(struct mbox_chan *chan)
 	}
 exit:
 	spin_unlock_irqrestore(&chan->lock, flags);
+	printk("in msg_submit, channel:%d release spin lock, chan->msg_count: %d, chan->active_req: %d\n", chan->con_priv, chan->msg_count, chan->active_req);
 
 	/* kick start the timer immediately to avoid delays */
 	if (!err && (chan->txdone_method & TXDONE_BY_POLL)) {
@@ -94,7 +97,7 @@ static void tx_tick(struct mbox_chan *chan, int r)
 {
 	unsigned long flags;
 	void *mssg;
-
+	printk("in tx_tick, r:%d", r);
 	spin_lock_irqsave(&chan->lock, flags);
 	mssg = chan->active_req;
 	chan->active_req = NULL;
@@ -250,7 +253,7 @@ EXPORT_SYMBOL_GPL(mbox_client_peek_data);
 int mbox_send_message(struct mbox_chan *chan, void *mssg)
 {
 	int t;
-
+	printk("mbox_send_message\n");
 	if (!chan || !chan->cl)
 		return -EINVAL;
 
@@ -261,6 +264,7 @@ int mbox_send_message(struct mbox_chan *chan, void *mssg)
 	}
 
 	msg_submit(chan);
+	printk("mbox_send_message, after msg_submit(chan)\n");
 
 	if (chan->cl->tx_block) {
 		unsigned long wait;
